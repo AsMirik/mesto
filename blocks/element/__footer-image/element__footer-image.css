@@ -1,0 +1,14 @@
+.element__footer-image {
+  display: block;
+  background-image: url(../../../images/heart.svg);
+  width: 22px;
+  height: 19px;
+}
+
+.element__footer-image:not(:active):hover {
+  opacity: 0.5;
+}
+
+.element__footer-image:active {
+  background-image: url(../../../images/heart-active.svg);
+}
