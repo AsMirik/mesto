@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="pages/index.css">
+  <title>mesto</title>
+</head>
+
+<body>
+  <div class="page">
+    <div class="header">
+      <div class="container">
+        <a href="#"><img class="header__logo" src="images/logo.png" alt="логотип" /></a>
+      </div>
+      <div class="header__line container"></div>
+    </div>
+    <div class="profile container">
+      <img class="profile__avatar" src="images/avatar.png" alt="Кусто" />
+      <div class="profile__info">
+        <div class="profile__content">
+          <h1 class="profile__name-text">Жак-Ив Кусто</h1>
+          <button class="profile__edit-button">
+            <img src="images/edit.svg" alt="Изменить" />
+          </button>
+        </div>
+        <p class="profile__activity">Исследователь океана</p>
+      </div>
+      <button class="profile__add-button">
+        <img src="images/add-butt.svg" alt="Добавить" />
+      </button>
+    </div>
+    <div class="container">
+      <div class="elements">
+        <div class="element">
+          <img class="element__image" src="images/element3.png" alt="Карачаевск" />
+          <div class="element__footer">
+            <p class="element__footer-text">Карачаевск</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="images/element2.png" alt="Гора эльбрус" />
+          <div class="element__footer">
+            <p class="element__footer-text">Гора Эльбрус</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="images/element1.png" alt="Домбай" />
+          <div class="element__footer">
+            <p class="element__footer-text">Домбай</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="images/element2.png" alt="Эльбрус" />
+          <div class="element__footer">
+            <p class="element__footer-text">Гора Эльбрус</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="images/element1.png" alt="Домбай" />
+          <div class="element__footer">
+            <p class="element__footer-text">Домбай</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+        <div class="element">
+          <img class="element__image" src="images/element3.png" alt="Карачаево-черкесия" />
+          <div class="element__footer">
+            <p class="element__footer-text">Карачаево-Черкесия</p>
+            <button class="element__footer-button"><span class="element__footer-image"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="footer container">
+      <div class="footer__text">&copy; 2020 Mesto Russia</div>
+    </div>
+    <div class="popup">
+      <div class="popup__container">
+        <button class="popup__close-button"></button>
+        <h2 class="popup__heading">Редактировать профиль</h2>
+        <form class="popup__form">
+          <input class="popup__input" id="name" type="text" placeholder="Введите имя">
+          <input class="popup__input" id="work" type="text" placeholder="Введите деятельность">
+          <button class="popup__button">Сохранить</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="pages/index.js"></script>
+</body>
+
+</html>
