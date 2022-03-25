@@ -20,7 +20,9 @@ function closePopup () {
   popup.classList.remove('popup_opened');
 }
 
-function submitPopup () {
+function submitPopup (event) {
+  event.preventDefault();
+
   profileName.textContent = nameInput.value;
   profileActivity.textContent = jobInput.value;
 
