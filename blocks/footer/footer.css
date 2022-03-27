@@ -2,8 +2,16 @@
   padding: 67px 0 60px 0;
 }
 
+@media screen and (max-width: 640px) {
+  .footer {
+    padding-left: 19px;
+    padding-right: 19px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .footer {
-    padding: 28px 19px 36px;
+    padding-top: 28px;
+    padding-bottom: 36px;
   }
 }
