@@ -4,18 +4,25 @@
   height: 50px;
   border: 2px solid #fff;
   border-radius: 2px;
-  background: transparent;
   color: #fff;
   cursor: pointer;
+  background: transparent url(../../../images/add-butt.svg) no-repeat center center;
 }
 
 .profile__add-button:hover {
   opacity: 0.6;
 }
 
+@media screen and (max-width: 640px) {
+  .profile__add-button {
+    background-image: url(../../../images/add-butt-small.svg);
+    width: 100%;
+  }
+}
+
 @media screen and (max-width: 928px) {
   .profile__add-button {
     width: 100%;
-    margin-top: 36px;
+    margin-top: 33px;
   }
 }
