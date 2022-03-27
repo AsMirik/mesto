@@ -3,11 +3,14 @@
   font-size: 18px;
   line-height: 22px;
   color: #fff;
+  max-width: 336px;
 }
 
 @media screen and (max-width: 640px) {
   .profile__activity {
     font-size: 14px;
     line-height: 17px;
+    max-width: 100%;
+    word-break: break-word;
   }
 }

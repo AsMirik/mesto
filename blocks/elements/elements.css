@@ -1,6 +1,12 @@
 .elements {
   display: flex;
   flex-wrap: wrap;
-  margin-top: 40px;
+  margin-top: 49px;
   gap: 20px 17px;
+}
+
+@media screen and (max-width: 640px) {
+  .elements {
+    margin-top: 36px;
+  }
 }
