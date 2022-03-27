@@ -1,13 +1,13 @@
 .profile__content {
   display: flex;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 9px;
 }
 
 
 @media screen and (max-width: 640px) {
   .profile__content {
-    margin-bottom: 14px;
-    margin-top: 22px;
+    margin-bottom: 7px;
+    margin-top: 28px;
   }
 }
