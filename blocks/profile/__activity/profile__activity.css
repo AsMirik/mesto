@@ -4,13 +4,15 @@
   line-height: 22px;
   color: #fff;
   max-width: 336px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 640px) {
   .profile__activity {
     font-size: 14px;
     line-height: 17px;
-    max-width: 100%;
-    word-break: break-word;
+    max-width: 222px;
   }
 }
