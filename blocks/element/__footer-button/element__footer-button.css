@@ -1,6 +1,16 @@
 .element__footer-button {
   border: none;
-  background: white;
   cursor: pointer;
   padding: 0;
+  background: transparent url(../../../images/heart.svg);
+  width: 22px;
+  height: 19px;
+}
+
+.element__footer-button:not(:active):hover {
+  opacity: 0.5;
+}
+
+.element__footer-button:active {
+  background-image: url(../../../images/heart-active.svg);
 }
