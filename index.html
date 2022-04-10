@@ -81,7 +81,7 @@
       <p class="footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup">
+    <div class="popup" id="popupProfileEdit">
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h2 class="popup__heading">Редактировать профиль</h2>
@@ -93,6 +93,17 @@
       </div>
     </div>
 
+    <div class="popup" id="popupPlaceAdd">
+      <div class="popup__container">
+        <button type="button" class="popup__close-button"></button>
+        <h2 class="popup__heading">Новое место</h2>
+        <form name="popupForm" class="popup__form">
+          <input class="popup__input" id="placeName" type="text" name="placeName" placeholder="Название">
+          <input class="popup__input" id="placeLink" type="text" name="placeLink" placeholder="Ссылка на картинку">
+          <button type="submit" class="popup__button">Создать</button>
+        </form>
+      </div>
+    </div>
   </div>
 
   <script src="scripts/index.js"></script>
