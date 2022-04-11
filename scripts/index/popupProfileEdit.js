@@ -31,29 +31,3 @@ function submitPopup(event) {
 formPopup.addEventListener('submit', submitPopup);
 closeButton.addEventListener('click', closePopup);
 editButton.addEventListener('click', openPopup);
-
-//Popup Добавления места
-let addPlaceButton = document.querySelector('.profile__add-button');
-
-
-let popupPlaceAdd = document.querySelector('#popupPlaceAdd');
-let formPopupPlaceAdd = popupPlaceAdd.querySelector('.popup__form');
-let closeButtonPlaceAdd = popupPlaceAdd.querySelector('.popup__close-button');
-
-function openPopupPlaceAdd() {
-  popupPlaceAdd.classList.add('popup_opened');
-}
-
-function closePopupPlaceAdd() {
-  popupPlaceAdd.classList.remove('popup_opened');
-}
-
-function submitPopupPlaceAdd(event) {
-  event.preventDefault();
-
-  closePopupPlaceAdd();
-}
-
-addPlaceButton.addEventListener('click', openPopupPlaceAdd)
-closeButtonPlaceAdd.addEventListener('click', closePopupPlaceAdd);
-formPopupPlaceAdd.addEventListener('submit', submitPopupPlaceAdd);
