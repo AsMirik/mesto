@@ -1,0 +1,10 @@
+.element__remove-button {
+  background: transparent url(../../../images/Group.svg) no-repeat center center;
+  position: absolute;
+  width: 18px;
+  height: 19px;
+  top: 20px;
+  right: 20px;
+  border: none;
+  cursor: pointer;
+}
