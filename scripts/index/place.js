@@ -39,3 +39,31 @@ const initialCards = [
 for (let i = 0; i < initialCards.length; i++) {
   createPlace(initialCards[i].name, initialCards[i].link);
 }
+
+
+let elements = document.querySelector('.elements');
+
+function elementsMainClick(event) {
+  console.log(event.target);
+  if (event.target.classList.contains('element__footer-button')) {
+    toggleLike(event.target);
+  } else if (event.target.classList.contains('element__remove-button')) {
+    removePlace();
+  } else if (event.target.classList.contains('element__image')) {
+    previewPlace();
+  }
+}
+
+function toggleLike(likeButton) {
+  likeButton.classList.toggle('element__footer-button_active');
+}
+
+function removePlace() {
+  console.log('remove');
+}
+
+function previewPlace() {
+  console.log('preview');
+}
+
+elements.addEventListener('click', elementsMainClick);
