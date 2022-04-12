@@ -48,7 +48,7 @@ function elementsMainClick(event) {
   if (event.target.classList.contains('element__footer-button')) {
     toggleLike(event.target);
   } else if (event.target.classList.contains('element__remove-button')) {
-    removePlace();
+    removePlace(event.target);
   } else if (event.target.classList.contains('element__image')) {
     previewPlace();
   }
@@ -58,8 +58,8 @@ function toggleLike(likeButton) {
   likeButton.classList.toggle('element__footer-button_active');
 }
 
-function removePlace() {
-  console.log('remove');
+function removePlace(removeButton) {
+  removeButton.parentElement.remove();
 }
 
 function previewPlace() {
