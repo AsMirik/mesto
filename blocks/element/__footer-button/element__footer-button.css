@@ -5,6 +5,7 @@
   background: transparent url(../../../images/heart.svg);
   width: 22px;
   height: 19px;
+  flex-shrink: 0;
 }
 
 .element__footer-button:not(:active):hover {

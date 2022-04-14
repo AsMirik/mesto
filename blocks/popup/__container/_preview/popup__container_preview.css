@@ -5,5 +5,5 @@
   border-radius: unset;
   padding: unset;
   box-shadow: unset;
-
+  max-height: calc(100vh - 120px);
 }
