@@ -6,6 +6,7 @@
   width: 22px;
   height: 19px;
   flex-shrink: 0;
+  transition: opacity 0.3s linear;
 }
 
 .element__footer-button:not(:active):hover {

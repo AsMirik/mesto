@@ -7,6 +7,7 @@
   color: #fff;
   cursor: pointer;
   background: transparent url(../../../images/add-butt.svg) no-repeat center center;
+  transition: opacity 0.3s linear;
 }
 
 .profile__add-button:hover {
