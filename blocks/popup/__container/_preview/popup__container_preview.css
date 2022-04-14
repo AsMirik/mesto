@@ -1,0 +1,9 @@
+.popup__container_preview {
+  width: unset;
+  max-width: 100%;
+  background: unset;
+  border-radius: unset;
+  padding: unset;
+  box-shadow: unset;
+  max-height: calc(100vh - 120px);
+}

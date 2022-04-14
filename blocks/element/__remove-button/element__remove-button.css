@@ -8,3 +8,7 @@
   border: none;
   cursor: pointer;
 }
+
+.element__remove-button:hover {
+  opacity: 0.6;
+}
