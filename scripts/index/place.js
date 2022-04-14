@@ -44,13 +44,12 @@ for (let i = 0; i < initialCards.length; i++) {
 let elements = document.querySelector('.elements');
 
 function elementsMainClick(event) {
-  console.log(event.target);
   if (event.target.classList.contains('element__footer-button')) {
     toggleLike(event.target);
   } else if (event.target.classList.contains('element__remove-button')) {
     removePlace(event.target);
   } else if (event.target.classList.contains('element__image')) {
-    previewPlace();
+    previewPlace(event.target);
   }
 }
 
@@ -62,8 +61,24 @@ function removePlace(removeButton) {
   removeButton.parentElement.remove();
 }
 
-function previewPlace() {
-  console.log('preview');
+let popupPlacePreview = document.querySelector('#popupPreview');
+let closePreviewButton = popupPlacePreview.querySelector('.popup__close-button');
+
+function previewPlace(image) {
+  let src = image.src;
+  let name = image.parentElement.querySelector('.element__footer-text').textContent;
+  let previewImage = popupPlacePreview.querySelector('.popup__preview-image');
+  let previewText = popupPlacePreview.querySelector('.popup__preview-text');
+
+  previewImage.src = src;
+  previewText.textContent = name;
+
+  popupPlacePreview.classList.add('popup_opened')
 }
 
+function closePopupPreview() {
+  popupPlacePreview.classList.remove('popup_opened');
+}
+
+closePreviewButton.addEventListener('click', closePopupPreview);
 elements.addEventListener('click', elementsMainClick);
