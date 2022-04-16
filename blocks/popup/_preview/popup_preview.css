@@ -1,4 +1,10 @@
 .popup_preview {
-  padding: 0 40px;
+  padding: 0 60px;
   background: rgba(0, 0, 0, 0.9);
+}
+
+@media screen and (max-width: 640px) {
+  .popup_preview {
+    padding: 0 40px;
+  }
 }
