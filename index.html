@@ -14,6 +14,7 @@
     <header class="header container">
       <a href="#" class="header__logo"></a>
     </header>
+
     <main>
       <section class="profile container">
         <img class="profile__avatar" src="images/avatar.png" alt="Аватар"/>
@@ -26,15 +27,15 @@
         </div>
         <button type="button" class="profile__add-button"></button>
       </section>
-      <section class="elements container">
 
-      </section>
+      <section class="elements container"></section>
     </main>
+
     <footer class="footer container">
       <p class="footer__text">&copy; 2020 Mesto Russia</p>
     </footer>
 
-    <div class="popup" id="popupProfileEdit">
+    <div class="popup" id="editProfilePopup">
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h2 class="popup__heading">Редактировать профиль</h2>
@@ -46,7 +47,7 @@
       </div>
     </div>
 
-    <div class="popup" id="popupPlaceAdd">
+    <div class="popup" id="addPlacePopup">
       <div class="popup__container">
         <button type="button" class="popup__close-button"></button>
         <h2 class="popup__heading">Новое место</h2>
@@ -58,7 +59,7 @@
       </div>
     </div>
 
-    <div class="popup popup_preview" id="popupPreview">
+    <div class="popup popup_preview" id="previewPopup">
       <div class="popup__container popup__container_preview">
         <button type="button" class="popup__close-button"></button>
         <img class="popup__preview-image" src="#" alt="Картинка">
@@ -78,10 +79,7 @@
     </article>
   </template>
 
-  <script src="scripts/index/place.js"></script>
-  <script src="scripts/index/popupProfileEdit.js"></script>
-  <script src="scripts/index/popupPlaceAdd.js"></script>
-  <script src="scripts/index/popupPlacePreview.js"></script>
+  <script src="scripts/index.js"></script>
 </body>
 
 </html>
