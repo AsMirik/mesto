@@ -81,13 +81,6 @@ function toggleLike(event) {
 
 function removePlace(event) {
   const element = event.target.closest('.element');
-  const buttonRemove = element.querySelector('.element__remove-button');
-  const elementImage = element.querySelector('.element__image');
-  const buttonLike = element.querySelector('.element__footer-text');
-
-  buttonLike.removeEventListener('click', toggleLike);
-  buttonRemove.removeEventListener('click', removePlace);
-  elementImage.removeEventListener('click', openPopupPreview);
 
   element.remove();
 }
@@ -95,9 +88,12 @@ function removePlace(event) {
 function openPopupPreview(event) {
   const src = event.target.src;
   const name = event.target.closest('.element').querySelector('.element__footer-text').textContent;
+  const alt = event.target.alt;
   const previewImage = popupPreview.querySelector('.popup__preview-image');
   const previewText = popupPreview.querySelector('.popup__preview-text');
 
+
+  previewImage.alt = alt;
   previewImage.src = src;
   previewText.textContent = name;
 
