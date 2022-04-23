@@ -6,13 +6,16 @@
   color: #fff;
   border-radius: 2px;
   border: none;
-  cursor: pointer;
   font-size: 18px;
   line-height: 22px;
   transition: opacity 0.3s linear;
 }
 
-.popup__button:hover {
+.popup__button:enabled {
+  cursor: pointer;
+}
+
+.popup__button:enabled:hover {
   opacity: 0.8;
 }
 
