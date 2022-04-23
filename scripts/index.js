@@ -31,6 +31,8 @@ const elementsSection = document.querySelector('.elements');
 const popupPreview = document.querySelector('#popupPreview');
 const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
 const popupPreviewOverlay = popupPreview.querySelector('.popup__overlay');
+const popupPreviewImage = popupPreview.querySelector('.popup__preview-image');
+const popupPreviewText = popupPreview.querySelector('.popup__preview-text');
 
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
@@ -92,13 +94,10 @@ function openPopupPreview(event) {
   const src = event.target.src;
   const name = event.target.closest('.element').querySelector('.element__footer-text').textContent;
   const alt = event.target.alt;
-  const previewImage = popupPreview.querySelector('.popup__preview-image');
-  const previewText = popupPreview.querySelector('.popup__preview-text');
 
-
-  previewImage.alt = alt;
-  previewImage.src = src;
-  previewText.textContent = name;
+  popupPreviewImage.alt = alt;
+  popupPreviewImage.src = src;
+  popupPreviewText.textContent = name;
 
   openPopup(popupPreview);
 }
@@ -122,10 +121,7 @@ function closePopup(popup) {
 
 function closePopupByEsc(event) {
   if (event.key === 'Escape') {
-    const popupList = Array.from(document.querySelectorAll('.popup'));
-    const openedPopup = popupList.find(function (popup) {
-      return popup.classList.contains('popup_opened');
-    });
+    const openedPopup = document.querySelector('.popup_opened');
 
     closePopup(openedPopup);
   }
@@ -133,8 +129,7 @@ function closePopupByEsc(event) {
 
 function openPopupPlaceAdd() {
   // Очищаем инпуты при открытии, т.к. при закрытии из-за transition видно как поля очищаются.
-  popupPlaceAddNameInput.value = '';
-  popupPlaceAddLinkInput.value = '';
+  popupPlaceAddForm.reset();
 
   openPopup(popupPlaceAdd);
 }
