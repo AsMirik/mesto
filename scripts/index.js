@@ -30,11 +30,13 @@ const elementsSection = document.querySelector('.elements');
 
 const popupPreview = document.querySelector('#popupPreview');
 const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
+const popupPreviewOverlay = popupPreview.querySelector('.popup__overlay');
 
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
 const popupPlaceAddCloseButton = popupPlaceAdd.querySelector('.popup__close-button');
+const popupPlaceAddOverlay = popupPlaceAdd.querySelector('.popup__overlay');
 const popupPlaceAddNameInput = popupPlaceAdd.querySelector('#placeName');
 const popupPlaceAddLinkInput = popupPlaceAdd.querySelector('#placeLink');
 
@@ -45,6 +47,7 @@ const profileActivity = document.querySelector('.profile__activity');
 const profilePopup = document.querySelector('#popupEditProfile');
 const profilePopupForm = profilePopup.querySelector('.popup__form');
 const profilePopupCloseButton = profilePopup.querySelector('.popup__close-button');
+const profilePopupOverlay = profilePopup.querySelector('.popup__overlay');
 const profilePopupNameInput = profilePopup.querySelector('#name');
 const profilePopupWorkInput = profilePopup.querySelector('#work');
 
@@ -106,13 +109,27 @@ function closePopupPreview() {
 
 
 function openPopup(popup) {
+  document.addEventListener('keydown', closePopupByEsc);
+
   popup.classList.add('popup_opened');
 }
 
 function closePopup(popup) {
+  document.removeEventListener('keydown', closePopupByEsc);
+
   popup.classList.remove('popup_opened');
 }
 
+function closePopupByEsc(event) {
+  if (event.key === 'Escape') {
+    const popupList = Array.from(document.querySelectorAll('.popup'));
+    const openedPopup = popupList.find(function (popup) {
+      return popup.classList.contains('popup_opened');
+    });
+
+    closePopup(openedPopup);
+  }
+}
 
 function openPopupPlaceAdd() {
   // Очищаем инпуты при открытии, т.к. при закрытии из-за transition видно как поля очищаются.
@@ -160,13 +177,16 @@ function submitProfilePopup(event) {
 }
 
 popupPreviewCloseButton.addEventListener('click', closePopupPreview);
+popupPreviewOverlay.addEventListener('click', closePopupPreview);
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 popupPlaceAddCloseButton.addEventListener('click', closePopupPlaceAdd);
+popupPlaceAddOverlay.addEventListener('click', closePopupPlaceAdd);
 popupPlaceAddForm.addEventListener('submit', submitPopupPlaceAdd);
 
 profilePopupForm.addEventListener('submit', submitProfilePopup);
 profilePopupCloseButton.addEventListener('click', closeProfilePopup);
+profilePopupOverlay.addEventListener('click', closeProfilePopup);
 profileEditButton.addEventListener('click', openProfilePopup);
 
 startPage();
