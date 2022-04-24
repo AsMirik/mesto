@@ -37,6 +37,7 @@ const popupPreviewText = popupPreview.querySelector('.popup__preview-text');
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
+const popupPlaceSubmitButton = popupPlaceAddForm.querySelector('.popup__button');
 const popupPlaceAddCloseButton = popupPlaceAdd.querySelector('.popup__close-button');
 const popupPlaceAddOverlay = popupPlaceAdd.querySelector('.popup__overlay');
 const popupPlaceAddNameInput = popupPlaceAdd.querySelector('#placeName');
@@ -128,8 +129,11 @@ function closePopupByEsc(event) {
 }
 
 function openPopupPlaceAdd() {
-  // Очищаем инпуты при открытии, т.к. при закрытии из-за transition видно как поля очищаются.
+  // Очищаем инпуты и блокируем кнопку при открытии,
+  // т.к. при закрытии из-за transition видно как поля очищаются.
   popupPlaceAddForm.reset();
+  popupPlaceSubmitButton.classList.add('popup__button_disabled');
+  popupPlaceSubmitButton.setAttribute('disabled', true);
 
   openPopup(popupPlaceAdd);
 }
