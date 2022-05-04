@@ -1,3 +1,5 @@
+// import './Card.js';
+
 const initialCards = [
   {
     name: 'Архыз',
@@ -25,14 +27,7 @@ const initialCards = [
   }
 ];
 
-const templateNewPost = document.querySelector('#newPost').content;
 const elementsSection = document.querySelector('.elements');
-
-const popupPreview = document.querySelector('#popupPreview');
-const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
-const popupPreviewOverlay = popupPreview.querySelector('.popup__overlay');
-const popupPreviewImage = popupPreview.querySelector('.popup__preview-image');
-const popupPreviewText = popupPreview.querySelector('.popup__preview-text');
 
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
@@ -54,59 +49,14 @@ const profilePopupOverlay = profilePopup.querySelector('.popup__overlay');
 const profilePopupNameInput = profilePopup.querySelector('#name');
 const profilePopupWorkInput = profilePopup.querySelector('#work');
 
-function createPlace(name, srcPlace) {
-  const element = templateNewPost.querySelector('.element').cloneNode(true);
-  const buttonLike = element.querySelector('.element__footer-button');
-  const buttonRemove = element.querySelector('.element__remove-button');
-  const elementImage = element.querySelector('.element__image');
-  const elementName = element.querySelector('.element__footer-text');
-
-  elementImage.src = srcPlace;
-  elementImage.alt = name;
-  elementName.textContent = name;
-
-  buttonLike.addEventListener('click', toggleLike);
-  buttonRemove.addEventListener('click', removePlace);
-  elementImage.addEventListener('click', openPopupPreview);
-
-  return element;
-}
-
 function startPage() {
-  initialCards.forEach(function (item) {
-    const newPlace = createPlace(item.name, item.link);
+  initialCards.forEach((item) => {
+    const card = new Card(item, '#newPost');
+    const cardElement = card.generateCard();
 
-    elementsSection.prepend(newPlace);
+    elementsSection.prepend(cardElement);
   });
 }
-
-
-function toggleLike(event) {
-  event.target.classList.toggle('element__footer-button_active');
-}
-
-function removePlace(event) {
-  const element = event.target.closest('.element');
-
-  element.remove();
-}
-
-function openPopupPreview(event) {
-  const src = event.target.src;
-  const name = event.target.closest('.element').querySelector('.element__footer-text').textContent;
-  const alt = event.target.alt;
-
-  popupPreviewImage.alt = alt;
-  popupPreviewImage.src = src;
-  popupPreviewText.textContent = name;
-
-  openPopup(popupPreview);
-}
-
-function closePopupPreview() {
-  closePopup(popupPreview);
-}
-
 
 function openPopup(popup) {
   document.addEventListener('keydown', closePopupByEsc);
@@ -147,13 +97,18 @@ function submitPopupPlaceAdd(event) {
 
   const name = popupPlaceAddNameInput.value;
   const link = popupPlaceAddLinkInput.value;
+  const data = {
+    name: name,
+    link: link
+  };
 
-  const newPlace = createPlace(name, link);
-  elementsSection.prepend(newPlace);
+  const card = new Card(data, '#newPost');
+  const cardElement = card.generateCard();
+
+  elementsSection.prepend(cardElement);
 
   closePopupPlaceAdd();
 }
-
 
 function openProfilePopup() {
   profilePopupNameInput.value = profileName.textContent;
@@ -174,9 +129,6 @@ function submitProfilePopup(event) {
 
   closeProfilePopup();
 }
-
-popupPreviewCloseButton.addEventListener('click', closePopupPreview);
-popupPreviewOverlay.addEventListener('click', closePopupPreview);
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 popupPlaceAddCloseButton.addEventListener('click', closePopupPlaceAdd);
