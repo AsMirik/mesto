@@ -44,7 +44,7 @@ class Card {
 
   _toggleLike(event) {
     event.stopPropagation();
-    
+
     event.target.classList.toggle('element__footer-button_active');
   }
 
@@ -75,3 +75,5 @@ class Card {
     return this._element;
   }
 }
+
+export { Card };
