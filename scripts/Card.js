@@ -24,6 +24,8 @@ class Card {
   _handleOpenPopup(event) {
     event.stopPropagation();
 
+    document.addEventListener('keydown', this._handleClosePopupByEsc);
+
     popupPreviewImage.alt = this._title;
     popupPreviewImage.src = this._image;
     popupPreviewText.textContent = this._title;
@@ -32,6 +34,15 @@ class Card {
 
   _handleClosePopup() {
     popupPreview.classList.remove('popup_opened');
+
+    document.removeEventListener('keydown', this._handleClosePopupByEsc);
+  }
+
+  // Используем стрелочную функцию, чтобы не терялся this при addEventListener
+  _handleClosePopupByEsc = (event) => {
+    if (event.key === 'Escape') {
+      this._handleClosePopup();
+    }
   }
 
   _removeCard(event) {
