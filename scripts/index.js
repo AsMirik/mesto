@@ -27,6 +27,19 @@ const initialCards = [
   }
 ];
 
+const validationSettings = {
+  formSelector: '.popup__form',
+  fieldSelector: '.popup__field',
+  inputSelector: '.popup__input',
+  errorElementSelector: '.popup__input-error',
+  submitButtonSelector: '.popup__button',
+  inactiveButtonClass: 'popup__button_disabled',
+  inputErrorClass: 'popup__input_error',
+  errorMessageActiveClass: 'popup__input-error_active',
+};
+
+const formsList = Array.from(document.querySelectorAll(validationSettings.formSelector));
+
 const elementsSection = document.querySelector('.elements');
 
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
@@ -55,6 +68,11 @@ function startPage() {
     const cardElement = card.generateCard();
 
     elementsSection.prepend(cardElement);
+  });
+
+  formsList.forEach((formElement) => {
+    const validator = new FormValidator(validationSettings, formElement);
+    validator.enableValidation();
   });
 }
 
