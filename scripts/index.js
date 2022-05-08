@@ -101,6 +101,7 @@ function openPopupPlaceAdd() {
   // т.к. при закрытии из-за transition видно как поля очищаются.
   popupPlaceAddForm.reset();
   popupPlaceAddFormValidator.disableSubmitButton();
+  popupPlaceAddFormValidator.resetErrors();
 
   openPopup(popupPlaceAdd);
 }
@@ -124,6 +125,8 @@ function submitPopupPlaceAdd(event) {
 }
 
 function openProfilePopup() {
+  profilePopupFormValidator.resetErrors();
+
   profilePopupNameInput.value = profileName.textContent;
   profilePopupWorkInput.value = profileActivity.textContent;
 
