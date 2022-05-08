@@ -65,16 +65,21 @@ const profilePopupWorkInput = profilePopup.querySelector('#work');
 
 function startPage() {
   initialCards.forEach((item) => {
-    const card = new Card(item, '#newPost');
-    const cardElement = card.generateCard();
-
-    elementsSection.prepend(cardElement);
+    const card = createCard(item);
+    elementsSection.prepend(card);
   });
 
   formsList.forEach((formElement) => {
     const validator = new FormValidator(validationSettings, formElement);
     validator.enableValidation();
   });
+}
+
+function createCard(item) {
+  const card = new Card(item, '#newPost');
+  const cardElement = card.generateCard();
+
+  return cardElement;
 }
 
 function openPopup(popup) {
@@ -121,11 +126,7 @@ function submitPopupPlaceAdd(event) {
     link: link
   };
 
-  const card = new Card(data, '#newPost');
-  const cardElement = card.generateCard();
-
-  elementsSection.prepend(cardElement);
-
+  createCard(data);
   closePopupPlaceAdd();
 }
 
@@ -160,3 +161,5 @@ profilePopupOverlay.addEventListener('click', closeProfilePopup);
 profileEditButton.addEventListener('click', openProfilePopup);
 
 startPage();
+
+export { openPopup, closePopup };
