@@ -1,3 +1,5 @@
+import { openPopup, closePopup } from './index.js';
+
 const popupPreview = document.querySelector('#popupPreview');
 const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
 const popupPreviewImage = popupPreview.querySelector('.popup__preview-image');
@@ -24,33 +26,20 @@ class Card {
   _handleOpenPopup(event) {
     event.stopPropagation();
 
-    document.addEventListener('keydown', this._handleClosePopupByEsc);
-
     popupPreviewImage.alt = this._title;
     popupPreviewImage.src = this._image;
     popupPreviewText.textContent = this._title;
-    popupPreview.classList.add('popup_opened');
+
+    openPopup(popupPreview);
   }
 
   _handleClosePopup() {
-    popupPreview.classList.remove('popup_opened');
-
-    document.removeEventListener('keydown', this._handleClosePopupByEsc);
-  }
-
-  // Используем стрелочную функцию, чтобы не терялся this при addEventListener
-  _handleClosePopupByEsc = (event) => {
-    if (event.key === 'Escape') {
-      this._handleClosePopup();
-    }
+    closePopup(popupPreview);
   }
 
   _removeCard(event) {
     event.stopPropagation();
-
-    const element = event.target.closest('.element');
-
-    element.remove();
+    this._element.remove();
   }
 
   _toggleLike(event) {
@@ -67,7 +56,6 @@ class Card {
     buttonLike.addEventListener('click', (event) => this._toggleLike(event));
     buttonRemove.addEventListener('click', (event) => this._removeCard(event));
     popupPreviewOverlay.addEventListener('click', () => this._handleClosePopup());
-
     popupPreviewCloseButton.addEventListener('click', () => this._handleClosePopup());
   };
 
