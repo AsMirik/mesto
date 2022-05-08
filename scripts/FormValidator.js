@@ -31,8 +31,13 @@ class FormValidator {
     return inputList.some((input) => !input.validity.valid);
   }
 
-  _setEventListeners() {
+  _getInputList() {
     const inputList = Array.from(this._formElement.querySelectorAll(this._settings.inputSelector));
+    return inputList;
+  }
+
+  _setEventListeners() {
+    const inputList = this._getInputList();
     this.disableSubmitButton();
 
     inputList.forEach((inputElement) => {
@@ -55,6 +60,14 @@ class FormValidator {
   enableSubmitButton = () => {
     this._submitButton.classList.remove(this._settings.inactiveButtonClass);
     this._submitButton.removeAttribute('disabled');
+  }
+
+  resetErrors() {
+    const inputList = this._getInputList();
+
+    inputList.forEach((input) => {
+      this._hideInputError(input);
+    });
   }
 
   enableValidation() {
