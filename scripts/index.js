@@ -29,7 +29,6 @@ const initialCards = [
 ];
 
 const validationSettings = {
-  formSelector: '.popup__form',
   fieldSelector: '.popup__field',
   inputSelector: '.popup__input',
   errorElementSelector: '.popup__input-error',
@@ -39,14 +38,12 @@ const validationSettings = {
   errorMessageActiveClass: 'popup__input-error_active',
 };
 
-const formsList = Array.from(document.querySelectorAll(validationSettings.formSelector));
-
 const elementsSection = document.querySelector('.elements');
 
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
-const popupPlaceSubmitButton = popupPlaceAddForm.querySelector('.popup__button');
+const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
 const popupPlaceAddCloseButton = popupPlaceAdd.querySelector('.popup__close-button');
 const popupPlaceAddOverlay = popupPlaceAdd.querySelector('.popup__overlay');
 const popupPlaceAddNameInput = popupPlaceAdd.querySelector('#placeName');
@@ -58,6 +55,7 @@ const profileActivity = document.querySelector('.profile__activity');
 
 const profilePopup = document.querySelector('#popupEditProfile');
 const profilePopupForm = profilePopup.querySelector('.popup__form');
+const profilePopupFormValidator = new FormValidator(validationSettings, profilePopupForm);
 const profilePopupCloseButton = profilePopup.querySelector('.popup__close-button');
 const profilePopupOverlay = profilePopup.querySelector('.popup__overlay');
 const profilePopupNameInput = profilePopup.querySelector('#name');
@@ -65,21 +63,17 @@ const profilePopupWorkInput = profilePopup.querySelector('#work');
 
 function startPage() {
   initialCards.forEach((item) => {
-    const card = createCard(item);
-    elementsSection.prepend(card);
+    createCard(item);
   });
 
-  formsList.forEach((formElement) => {
-    const validator = new FormValidator(validationSettings, formElement);
-    validator.enableValidation();
-  });
+  popupPlaceAddFormValidator.enableValidation();
+  profilePopupFormValidator.enableValidation();
 }
 
 function createCard(item) {
   const card = new Card(item, '#newPost');
   const cardElement = card.generateCard();
-
-  return cardElement;
+  elementsSection.prepend(cardElement);
 }
 
 function openPopup(popup) {
@@ -106,8 +100,7 @@ function openPopupPlaceAdd() {
   // Очищаем инпуты и блокируем кнопку при открытии,
   // т.к. при закрытии из-за transition видно как поля очищаются.
   popupPlaceAddForm.reset();
-  popupPlaceSubmitButton.classList.add('popup__button_disabled');
-  popupPlaceSubmitButton.setAttribute('disabled', true);
+  popupPlaceAddFormValidator.disableSubmitButton();
 
   openPopup(popupPlaceAdd);
 }
