@@ -65,6 +65,7 @@ const profilePopupWorkInput = profilePopup.querySelector('#work');
 function startPage() {
   initialCards.forEach((item) => {
     createCard(item);
+    addPrependCard(item);
   });
 
   popupPlaceAddFormValidator.enableValidation();
@@ -73,11 +74,11 @@ function startPage() {
 
 function createCard(item) {
   const card = new Card(item, '#newPost');
-  return addPrependCard(card);
+  return card.generateCard();
 }
 
 function addPrependCard(card) {
-  const cardElement = card.generateCard();
+  const cardElement = createCard(card);
   elementsSection.prepend(cardElement);
 }
 
@@ -126,6 +127,7 @@ function submitPopupPlaceAdd(event) {
   };
 
   createCard(data);
+  addPrependCard(data);
   closePopupPlaceAdd();
 }
 
