@@ -64,8 +64,8 @@ const profilePopupWorkInput = profilePopup.querySelector('#work');
 
 function startPage() {
   initialCards.forEach((item) => {
-    createCard(item);
-    addPrependCard(item);
+    const card = createCard(item);
+    addPrependCard(card);
   });
 
   popupPlaceAddFormValidator.enableValidation();
@@ -74,12 +74,12 @@ function startPage() {
 
 function createCard(item) {
   const card = new Card(item, '#newPost');
-  return card.generateCard();
+  const cardElement = card.generateCard();
+  return cardElement;
 }
 
 function addPrependCard(card) {
-  const cardElement = createCard(card);
-  elementsSection.prepend(cardElement);
+  elementsSection.prepend(card);
 }
 
 function openPopup(popup) {
@@ -126,8 +126,8 @@ function submitPopupPlaceAdd(event) {
     link: link
   };
 
-  createCard(data);
-  addPrependCard(data);
+  const card = createCard(data);
+  addPrependCard(card);
   closePopupPlaceAdd();
 }
 
