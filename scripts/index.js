@@ -1,5 +1,6 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import { popupPreview } from './Card.js';
 
 const initialCards = [
   {
@@ -72,6 +73,10 @@ function startPage() {
 
 function createCard(item) {
   const card = new Card(item, '#newPost');
+  return addPrependCard(card);
+}
+
+function addPrependCard(card) {
   const cardElement = card.generateCard();
   elementsSection.prepend(cardElement);
 }
@@ -145,6 +150,12 @@ function submitProfilePopup(event) {
 
   closeProfilePopup();
 }
+
+function closePopupPreview() {
+  closePopup(popupPreview);
+}
+
+popupPreview.addEventListener('click', closePopupPreview);
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 popupPlaceAddCloseButton.addEventListener('click', closePopupPlaceAdd);
