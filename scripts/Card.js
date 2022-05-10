@@ -1,6 +1,8 @@
-import { openPopup } from './index.js';
+import { openPopup, closePopup } from './index.js';
 
 const popupPreview = document.querySelector('#popupPreview');
+const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
+const popupPreviewOverlay = popupPreview.querySelector('.popup__overlay');
 const popupPreviewImage = popupPreview.querySelector('.popup__preview-image');
 const popupPreviewText = popupPreview.querySelector('.popup__preview-text');
 
@@ -31,6 +33,10 @@ class Card {
     openPopup(popupPreview);
   }
 
+  _handleClosePopup() {
+    closePopup(popupPreview);
+  }
+
   _removeCard(event) {
     event.stopPropagation();
     this._element.remove();
@@ -47,6 +53,8 @@ class Card {
     const buttonLike = this._element.querySelector('.element__footer-button');
 
     this._element.addEventListener('click', (event) => this._handleOpenPopup(event));
+    popupPreviewCloseButton.addEventListener('click', () => this._handleClosePopup());
+    popupPreviewOverlay.addEventListener('click', () => this._handleClosePopup());
     buttonLike.addEventListener('click', (event) => this._toggleLike(event));
     buttonRemove.addEventListener('click', (event) => this._removeCard(event));
   };

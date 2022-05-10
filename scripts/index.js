@@ -1,6 +1,5 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
-import { popupPreview } from './Card.js';
 
 const initialCards = [
   {
@@ -152,12 +151,6 @@ function submitProfilePopup(event) {
 
   closeProfilePopup();
 }
-
-function closePopupPreview() {
-  closePopup(popupPreview);
-}
-
-popupPreview.addEventListener('click', closePopupPreview);
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
 popupPlaceAddCloseButton.addEventListener('click', closePopupPlaceAdd);
