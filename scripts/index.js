@@ -1,5 +1,6 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
+import Section from './Section.js';
 
 const initialCards = [
   {
@@ -38,8 +39,6 @@ const validationSettings = {
   errorMessageActiveClass: 'popup__input-error_active',
 };
 
-const elementsSection = document.querySelector('.elements');
-
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
@@ -62,23 +61,19 @@ const profilePopupNameInput = profilePopup.querySelector('#name');
 const profilePopupWorkInput = profilePopup.querySelector('#work');
 
 function startPage() {
-  initialCards.forEach((item) => {
-    const card = createCard(item);
-    addPrependCard(card);
-  });
+  const cardsSection = new Section({
+    items: initialCards,
+    renderer: (item) => {
+      const card = new Card(item, '#newPost');
+      const cardElement = card.generateCard();
+      cardsSection.addItem(cardElement);
+    }
+  }, '.elements');
+
+  cardsSection.renderedItems();
 
   popupPlaceAddFormValidator.enableValidation();
   profilePopupFormValidator.enableValidation();
-}
-
-function createCard(item) {
-  const card = new Card(item, '#newPost');
-  const cardElement = card.generateCard();
-  return cardElement;
-}
-
-function addPrependCard(card) {
-  elementsSection.prepend(card);
 }
 
 function openPopup(popup) {
