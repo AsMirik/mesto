@@ -1,6 +1,8 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import Section from './Section.js';
+import Popup from './Popup.js';
+import PopupWithImage from './PopupWithImage.js';
 
 const initialCards = [
   {
@@ -39,12 +41,19 @@ const validationSettings = {
   errorMessageActiveClass: 'popup__input-error_active',
 };
 
+const popupAddPlace = new Popup('#popupAddPlace');
+popupAddPlace.setEventListeners();
+
+const popupProfile = new Popup('#popupEditProfile')
+popupProfile.setEventListeners();
+
+const popupPreview = new PopupWithImage('#popupPreview');
+popupPreview.setEventListeners();
+
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
 const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
-const popupPlaceAddCloseButton = popupPlaceAdd.querySelector('.popup__close-button');
-const popupPlaceAddOverlay = popupPlaceAdd.querySelector('.popup__overlay');
 const popupPlaceAddNameInput = popupPlaceAdd.querySelector('#placeName');
 const popupPlaceAddLinkInput = popupPlaceAdd.querySelector('#placeLink');
 
@@ -55,16 +64,18 @@ const profileActivity = document.querySelector('.profile__activity');
 const profilePopup = document.querySelector('#popupEditProfile');
 const profilePopupForm = profilePopup.querySelector('.popup__form');
 const profilePopupFormValidator = new FormValidator(validationSettings, profilePopupForm);
-const profilePopupCloseButton = profilePopup.querySelector('.popup__close-button');
-const profilePopupOverlay = profilePopup.querySelector('.popup__overlay');
 const profilePopupNameInput = profilePopup.querySelector('#name');
 const profilePopupWorkInput = profilePopup.querySelector('#work');
+
+function handleCardClick(imageSrc, titleText) {
+  popupPreview.open(imageSrc, titleText);
+}
 
 function startPage() {
   const cardsSection = new Section({
     items: initialCards,
     renderer: (item) => {
-      const card = new Card(item, '#newPost');
+      const card = new Card(item, '#newPost', handleCardClick);
       const cardElement = card.generateCard();
       cardsSection.addItem(cardElement);
     }
@@ -103,11 +114,11 @@ function openPopupPlaceAdd() {
   popupPlaceAddFormValidator.disableSubmitButton();
   popupPlaceAddFormValidator.resetErrors();
 
-  openPopup(popupPlaceAdd);
+  popupAddPlace.open();
 }
 
 function closePopupPlaceAdd() {
-  closePopup(popupPlaceAdd);
+  popupAddPlace.close();
 }
 
 function submitPopupPlaceAdd(event) {
@@ -131,11 +142,11 @@ function openProfilePopup() {
   profilePopupNameInput.value = profileName.textContent;
   profilePopupWorkInput.value = profileActivity.textContent;
 
-  openPopup(profilePopup);
+  popupProfile.open();
 }
 
 function closeProfilePopup() {
-  closePopup(profilePopup);
+  popupProfile.close();
 }
 
 function submitProfilePopup(event) {
@@ -148,13 +159,9 @@ function submitProfilePopup(event) {
 }
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
-popupPlaceAddCloseButton.addEventListener('click', closePopupPlaceAdd);
-popupPlaceAddOverlay.addEventListener('click', closePopupPlaceAdd);
 popupPlaceAddForm.addEventListener('submit', submitPopupPlaceAdd);
 
 profilePopupForm.addEventListener('submit', submitProfilePopup);
-profilePopupCloseButton.addEventListener('click', closeProfilePopup);
-profilePopupOverlay.addEventListener('click', closeProfilePopup);
 profileEditButton.addEventListener('click', openProfilePopup);
 
 startPage();
