@@ -1,8 +1,8 @@
 import { Card } from './Card.js';
 import { FormValidator } from './FormValidator.js';
 import Section from './Section.js';
-import Popup from './Popup.js';
 import PopupWithImage from './PopupWithImage.js';
+import PopupWithForm from './PopupWithForm.js';
 
 const initialCards = [
   {
@@ -41,21 +41,28 @@ const validationSettings = {
   errorMessageActiveClass: 'popup__input-error_active',
 };
 
-const popupAddPlace = new Popup('#popupAddPlace');
+const popupAddPlace = new PopupWithForm('#popupAddPlace', submitPopupPlaceAdd);
 popupAddPlace.setEventListeners();
 
-const popupProfile = new Popup('#popupEditProfile')
+const popupProfile = new PopupWithForm('#popupEditProfile', submitProfilePopup);
 popupProfile.setEventListeners();
 
 const popupPreview = new PopupWithImage('#popupPreview');
 popupPreview.setEventListeners();
 
+const cardsSection = new Section({
+  items: initialCards,
+  renderer: (item) => {
+    const card = new Card(item, '#newPost', handleCardClick);
+    const cardElement = card.generateCard();
+    cardsSection.addItem(cardElement);
+  }
+}, '.elements');
+
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
 const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
-const popupPlaceAddNameInput = popupPlaceAdd.querySelector('#placeName');
-const popupPlaceAddLinkInput = popupPlaceAdd.querySelector('#placeLink');
 
 const profileEditButton = document.querySelector('.profile__edit-button');
 const profileName = document.querySelector('.profile__name-text');
@@ -72,68 +79,30 @@ function handleCardClick(imageSrc, titleText) {
 }
 
 function startPage() {
-  const cardsSection = new Section({
-    items: initialCards,
-    renderer: (item) => {
-      const card = new Card(item, '#newPost', handleCardClick);
-      const cardElement = card.generateCard();
-      cardsSection.addItem(cardElement);
-    }
-  }, '.elements');
-
   cardsSection.renderedItems();
 
   popupPlaceAddFormValidator.enableValidation();
   profilePopupFormValidator.enableValidation();
 }
 
-function openPopup(popup) {
-  document.addEventListener('keydown', closePopupByEsc);
-
-  popup.classList.add('popup_opened');
-}
-
-function closePopup(popup) {
-  document.removeEventListener('keydown', closePopupByEsc);
-
-  popup.classList.remove('popup_opened');
-}
-
-function closePopupByEsc(event) {
-  if (event.key === 'Escape') {
-    const openedPopup = document.querySelector('.popup_opened');
-
-    closePopup(openedPopup);
-  }
-}
-
 function openPopupPlaceAdd() {
-  // Очищаем инпуты и блокируем кнопку при открытии,
-  // т.к. при закрытии из-за transition видно как поля очищаются.
-  popupPlaceAddForm.reset();
   popupPlaceAddFormValidator.disableSubmitButton();
   popupPlaceAddFormValidator.resetErrors();
 
   popupAddPlace.open();
 }
 
-function closePopupPlaceAdd() {
-  popupAddPlace.close();
-}
-
-function submitPopupPlaceAdd(event) {
+function submitPopupPlaceAdd(formElements, event) {
   event.preventDefault();
-
-  const name = popupPlaceAddNameInput.value;
-  const link = popupPlaceAddLinkInput.value;
   const data = {
-    name: name,
-    link: link
+    name: formElements.placeName.value,
+    link: formElements.placeLink.value
   };
 
-  const card = createCard(data);
-  addPrependCard(card);
-  closePopupPlaceAdd();
+  const card = new Card(data, '#newPost', handleCardClick);
+  const cardElement = card.generateCard();
+  cardsSection.addItem(cardElement);
+  popupAddPlace.close();
 }
 
 function openProfilePopup() {
@@ -145,25 +114,17 @@ function openProfilePopup() {
   popupProfile.open();
 }
 
-function closeProfilePopup() {
+function submitProfilePopup(formElements, event) {
+  event.preventDefault();
+
+  profileName.textContent = formElements.name.value;
+  profileActivity.textContent = formElements.work.value;
+
   popupProfile.close();
 }
 
-function submitProfilePopup(event) {
-  event.preventDefault();
-
-  profileName.textContent = profilePopupNameInput.value;
-  profileActivity.textContent = profilePopupWorkInput.value;
-
-  closeProfilePopup();
-}
-
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
-popupPlaceAddForm.addEventListener('submit', submitPopupPlaceAdd);
 
-profilePopupForm.addEventListener('submit', submitProfilePopup);
 profileEditButton.addEventListener('click', openProfilePopup);
 
 startPage();
-
-export { openPopup, closePopup };
