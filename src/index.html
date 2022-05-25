@@ -5,7 +5,6 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="pages/index.css">
   <title>mesto</title>
 </head>
 
@@ -17,7 +16,7 @@
 
     <main>
       <section class="profile container">
-        <img class="profile__avatar" src="images/avatar.png" alt="Аватар"/>
+        <img class="profile__avatar" src="<%=require('./images/avatar.png')%>" alt="Аватар"/>
         <div class="profile__info">
           <div class="profile__content">
             <h1 class="profile__name-text">Жак-Ив Кусто</h1>
@@ -124,10 +123,6 @@
     </article>
   </template>
 
-
-  <script src="scripts/index.js" type="module"></script>
-  <script src="scripts/FormValidator.js" type="module"></script>
-  <script src="scripts/Card.js" type="module"></script>
 </body>
 
 </html>

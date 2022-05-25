@@ -1,16 +1,9 @@
-import { openPopup, closePopup } from './index.js';
-
-const popupPreview = document.querySelector('#popupPreview');
-const popupPreviewCloseButton = popupPreview.querySelector('.popup__close-button');
-const popupPreviewOverlay = popupPreview.querySelector('.popup__overlay');
-const popupPreviewImage = popupPreview.querySelector('.popup__preview-image');
-const popupPreviewText = popupPreview.querySelector('.popup__preview-text');
-
 class Card {
-  constructor(data, templateSelector) {
+  constructor(data, templateSelector, handleCardClick) {
     this._templateSelector = templateSelector;
     this._image = data.link;
     this._title = data.name;
+    this._handleCardClick = handleCardClick;
   }
 
   _getTemplate() {
@@ -21,20 +14,6 @@ class Card {
       .cloneNode(true);
 
     return cardElement;
-  }
-
-  _handleOpenPopup(event) {
-    event.stopPropagation();
-
-    popupPreviewImage.alt = this._title;
-    popupPreviewImage.src = this._image;
-    popupPreviewText.textContent = this._title;
-
-    openPopup(popupPreview);
-  }
-
-  _handleClosePopup() {
-    closePopup(popupPreview);
   }
 
   _removeCard(event) {
@@ -52,9 +31,7 @@ class Card {
     const buttonRemove = this._element.querySelector('.element__remove-button');
     const buttonLike = this._element.querySelector('.element__footer-button');
 
-    this._element.addEventListener('click', (event) => this._handleOpenPopup(event));
-    popupPreviewCloseButton.addEventListener('click', () => this._handleClosePopup());
-    popupPreviewOverlay.addEventListener('click', () => this._handleClosePopup());
+    this._element.addEventListener('click', () => this._handleCardClick(this._image, this._title));
     buttonLike.addEventListener('click', (event) => this._toggleLike(event));
     buttonRemove.addEventListener('click', (event) => this._removeCard(event));
   };
@@ -76,4 +53,3 @@ class Card {
 }
 
 export { Card };
-export { popupPreview };
