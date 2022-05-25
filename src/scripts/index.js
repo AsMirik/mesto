@@ -3,6 +3,8 @@ import { FormValidator } from './FormValidator.js';
 import Section from './Section.js';
 import PopupWithImage from './PopupWithImage.js';
 import PopupWithForm from './PopupWithForm.js';
+import UserInfo from './UserInfo.js';
+import '../pages/index.css';
 
 const initialCards = [
   {
@@ -59,14 +61,14 @@ const cardsSection = new Section({
   }
 }, '.elements');
 
+const user = new UserInfo({nameSelector: '.profile__name-text', infoSelector: '.profile__activity'});
+
 const buttonPlaceAdd = document.querySelector('.profile__add-button');
 const popupPlaceAdd = document.querySelector('#popupAddPlace');
 const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
 const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
 
 const profileEditButton = document.querySelector('.profile__edit-button');
-const profileName = document.querySelector('.profile__name-text');
-const profileActivity = document.querySelector('.profile__activity');
 
 const profilePopup = document.querySelector('#popupEditProfile');
 const profilePopupForm = profilePopup.querySelector('.popup__form');
@@ -108,8 +110,10 @@ function submitPopupPlaceAdd(formElements, event) {
 function openProfilePopup() {
   profilePopupFormValidator.resetErrors();
 
-  profilePopupNameInput.value = profileName.textContent;
-  profilePopupWorkInput.value = profileActivity.textContent;
+  const userData = user.getUserInfo();
+
+  profilePopupNameInput.value = userData.name;
+  profilePopupWorkInput.value = userData.info;
 
   popupProfile.open();
 }
@@ -117,8 +121,7 @@ function openProfilePopup() {
 function submitProfilePopup(formElements, event) {
   event.preventDefault();
 
-  profileName.textContent = formElements.name.value;
-  profileActivity.textContent = formElements.work.value;
+  user.setUserInfo(formElements.name.value, formElements.work.value);
 
   popupProfile.close();
 }
