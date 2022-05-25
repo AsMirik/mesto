@@ -2,7 +2,8 @@ class FormValidator {
   constructor(settings, formElement) {
     this._settings = settings;
     this._formElement = formElement;
-    this._submitButton = this._formElement.querySelector('.popup__button');
+    this._submitButton = this._formElement.querySelector(this._settings.submitButtonSelector);
+    this._inputs = Array.from(this._formElement.querySelectorAll(this._settings.inputSelector));
   }
 
   _showInputError(inputElement, errorMessage) {
@@ -27,23 +28,17 @@ class FormValidator {
     }
   }
 
-  _hasInvalidInput(inputList) {
-    return inputList.some((input) => !input.validity.valid);
-  }
-
-  _getInputList() {
-    const inputList = Array.from(this._formElement.querySelectorAll(this._settings.inputSelector));
-    return inputList;
+  _hasInvalidInput() {
+    return this._inputs.some((input) => !input.validity.valid);
   }
 
   _setEventListeners() {
-    const inputList = this._getInputList();
     this.disableSubmitButton();
 
-    inputList.forEach((inputElement) => {
+    this._inputs.forEach((inputElement) => {
       inputElement.addEventListener('input', () => {
         this._checkInputValidity(inputElement);
-        if (this._hasInvalidInput(inputList)) {
+        if (this._hasInvalidInput()) {
           this.disableSubmitButton();
         } else {
           this.enableSubmitButton();
@@ -63,9 +58,7 @@ class FormValidator {
   }
 
   resetErrors() {
-    const inputList = this._getInputList();
-
-    inputList.forEach((input) => {
+    this._inputs.forEach((input) => {
       this._hideInputError(input);
     });
   }
