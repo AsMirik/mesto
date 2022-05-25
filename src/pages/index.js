@@ -1,10 +1,10 @@
-import { Card } from './Card.js';
-import { FormValidator } from './FormValidator.js';
-import Section from './Section.js';
-import PopupWithImage from './PopupWithImage.js';
-import PopupWithForm from './PopupWithForm.js';
-import UserInfo from './UserInfo.js';
-import '../pages/index.css';
+import { Card } from '../components/Card.js';
+import { FormValidator } from '../components/FormValidator.js';
+import Section from '../components/Section.js';
+import PopupWithImage from '../components/PopupWithImage.js';
+import PopupWithForm from '../components/PopupWithForm.js';
+import UserInfo from '../components/UserInfo.js';
+import './index.css';
 
 const initialCards = [
   {
@@ -43,6 +43,18 @@ const validationSettings = {
   errorMessageActiveClass: 'popup__input-error_active',
 };
 
+const buttonPlaceAdd = document.querySelector('.profile__add-button');
+const popupPlaceAdd = document.querySelector('#popupAddPlace');
+const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
+const profileEditButton = document.querySelector('.profile__edit-button');
+const profilePopup = document.querySelector('#popupEditProfile');
+const profilePopupForm = profilePopup.querySelector('.popup__form');
+const profilePopupNameInput = profilePopup.querySelector('#name');
+const profilePopupWorkInput = profilePopup.querySelector('#work');
+
+const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
+const profilePopupFormValidator = new FormValidator(validationSettings, profilePopupForm);
+
 const popupAddPlace = new PopupWithForm('#popupAddPlace', submitPopupPlaceAdd);
 popupAddPlace.setEventListeners();
 
@@ -55,26 +67,12 @@ popupPreview.setEventListeners();
 const cardsSection = new Section({
   items: initialCards,
   renderer: (item) => {
-    const card = new Card(item, '#newPost', handleCardClick);
-    const cardElement = card.generateCard();
-    cardsSection.addItem(cardElement);
+    const card = generateCard(item)
+    cardsSection.addItem(card);
   }
 }, '.elements');
 
 const user = new UserInfo({nameSelector: '.profile__name-text', infoSelector: '.profile__activity'});
-
-const buttonPlaceAdd = document.querySelector('.profile__add-button');
-const popupPlaceAdd = document.querySelector('#popupAddPlace');
-const popupPlaceAddForm = popupPlaceAdd.querySelector('.popup__form');
-const popupPlaceAddFormValidator = new FormValidator(validationSettings, popupPlaceAddForm);
-
-const profileEditButton = document.querySelector('.profile__edit-button');
-
-const profilePopup = document.querySelector('#popupEditProfile');
-const profilePopupForm = profilePopup.querySelector('.popup__form');
-const profilePopupFormValidator = new FormValidator(validationSettings, profilePopupForm);
-const profilePopupNameInput = profilePopup.querySelector('#name');
-const profilePopupWorkInput = profilePopup.querySelector('#work');
 
 function handleCardClick(imageSrc, titleText) {
   popupPreview.open(imageSrc, titleText);
@@ -87,6 +85,13 @@ function startPage() {
   profilePopupFormValidator.enableValidation();
 }
 
+function generateCard(data) {
+  const card = new Card(data, '#newPost', handleCardClick);
+  const cardElement = card.generateCard();
+
+  return cardElement;
+}
+
 function openPopupPlaceAdd() {
   popupPlaceAddFormValidator.disableSubmitButton();
   popupPlaceAddFormValidator.resetErrors();
@@ -94,16 +99,14 @@ function openPopupPlaceAdd() {
   popupAddPlace.open();
 }
 
-function submitPopupPlaceAdd(formElements, event) {
-  event.preventDefault();
+function submitPopupPlaceAdd(formElements) {
   const data = {
-    name: formElements.placeName.value,
-    link: formElements.placeLink.value
+    name: formElements.placeName,
+    link: formElements.placeLink
   };
 
-  const card = new Card(data, '#newPost', handleCardClick);
-  const cardElement = card.generateCard();
-  cardsSection.addItem(cardElement);
+  const card = generateCard(data);
+  cardsSection.addItem(card);
   popupAddPlace.close();
 }
 
@@ -118,10 +121,8 @@ function openProfilePopup() {
   popupProfile.open();
 }
 
-function submitProfilePopup(formElements, event) {
-  event.preventDefault();
-
-  user.setUserInfo(formElements.name.value, formElements.work.value);
+function submitProfilePopup(formElements) {
+  user.setUserInfo(formElements.name, formElements.work);
 
   popupProfile.close();
 }
