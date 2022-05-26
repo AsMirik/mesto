@@ -99,14 +99,8 @@ function openPopupPlaceAdd() {
   popupAddPlace.open();
 }
 
-function submitPopupPlaceAdd(formElements) {
-  const data = {
-    name: formElements.placeName,
-    link: formElements.placeLink
-  };
-
-  const card = generateCard(data);
-  cardsSection.addItem(card);
+function submitPopupPlaceAdd(formData) {
+  cardsSection.addItem(generateCard(formData));
   popupAddPlace.close();
 }
 
