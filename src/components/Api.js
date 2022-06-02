@@ -45,4 +45,8 @@ export default class Api {
   getUserInfo = () => {
     return this._get('/users/me');
   };
+
+  getInitialCards = () => {
+    return this._get('/cards');
+  }
 }
