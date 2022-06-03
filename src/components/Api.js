@@ -8,7 +8,7 @@ export default class Api {
     return fetch(this._baseUrl + url, {
       headers: this._headers,
       method: method,
-      body: body
+      body: JSON.stringify(body)
     })
       .then(res => {
         if (res.ok) {
@@ -48,5 +48,10 @@ export default class Api {
 
   getInitialCards = () => {
     return this._get('/cards');
-  }
+  };
+
+  editUserInfo = (body) => {
+    return this._patch('/users/me', body)
+  };
+
 }

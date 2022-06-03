@@ -72,6 +72,8 @@ function startPage() {
   api.getUserInfo().then((result) => {
     user.setUserInfo(result.name, result.about);
   });
+
+
 }
 
 function generateCard(data) {
@@ -105,9 +107,12 @@ function openProfilePopup() {
 }
 
 function submitProfilePopup(formElements) {
-  user.setUserInfo(formElements.name, formElements.work);
-
-  popupProfile.close();
+  // Редактирование профиля
+  api.editUserInfo({name: formElements.name, about: formElements.work})
+    .then((result) => {
+      user.setUserInfo(result.name, result.about)
+      popupProfile.close();
+    })
 }
 
 buttonPlaceAdd.addEventListener('click', openPopupPlaceAdd);
