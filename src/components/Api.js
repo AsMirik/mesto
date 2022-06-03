@@ -54,4 +54,7 @@ export default class Api {
     return this._patch('/users/me', body)
   };
 
+  addNewCard = (body) => {
+    return this._post('/cards', body)
+  };
 }

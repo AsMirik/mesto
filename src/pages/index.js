@@ -91,8 +91,11 @@ function openPopupPlaceAdd() {
 }
 
 function submitPopupPlaceAdd(formData) {
-  cardsSection.addItem(generateCard(formData));
-  popupAddPlace.close();
+  api.addNewCard(formData).then((result) => {
+    cardsSection.addItem(generateCard(result));
+
+    popupAddPlace.close();
+  })
 }
 
 function openProfilePopup() {
