@@ -20,6 +20,8 @@
 @import url(../blocks/element/__footer-text/element__footer-text.css);
 @import url(../blocks/element/__footer-button/element__footer-button.css);
 @import url(../blocks/element/__footer-button_active/element__footer-button_active.css);
+@import url(../blocks/element/__footer-likes/element__footer-likes.css);
+@import url(../blocks/element/__footer-counter/element__footer-counter.css);
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__text/footer__text.css);
 @import url(../blocks/popup/popup.css);

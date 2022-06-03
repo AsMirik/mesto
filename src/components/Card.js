@@ -3,6 +3,7 @@ class Card {
     this._templateSelector = templateSelector;
     this._image = data.link;
     this._title = data.name;
+    this._likes = data.likes;
     this._handleCardClick = handleCardClick;
   }
 
@@ -41,10 +42,12 @@ class Card {
 
     const elementImage = this._element.querySelector('.element__image');
     const elementName = this._element.querySelector('.element__footer-text');
+    const elementLike = this._element.querySelector('.element__footer-counter');
 
     elementImage.src = this._image;
     elementImage.alt = this._title;
     elementName.textContent = this._title;
+    elementLike.textContent = this._likes.length;
 
     this._setEventListeners();
 
