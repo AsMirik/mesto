@@ -28,13 +28,21 @@ class Card {
     event.target.classList.toggle('element__footer-button_active');
   }
 
+  _popupRemoveCard() {
+    const popupRemove = document.querySelector('#popupRemove');
+
+    popupRemove.classList.add('popup_opened');
+  }
+
   _setEventListeners() {
     const buttonRemove = this._element.querySelector('.element__remove-button');
+    const buttonRemoved = this._element.querySelector('.element__remove-button');
     const buttonLike = this._element.querySelector('.element__footer-button');
 
     this._element.addEventListener('click', () => this._handleCardClick(this._image, this._title));
     buttonLike.addEventListener('click', (event) => this._toggleLike(event));
     buttonRemove.addEventListener('click', (event) => this._removeCard(event));
+    buttonRemoved.addEventListener('click', (event) => this._popupRemoveCard(event));
   };
 
   generateCard() {
