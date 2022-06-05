@@ -61,4 +61,8 @@ export default class Api {
   deleteCard = (cardId) => {
     return this._delete('/cards/' + cardId);
   };
+
+  changeAvatar = (body) => {
+    return this._patch('/users/me/avatar', body);
+  }
 }
