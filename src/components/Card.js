@@ -1,10 +1,13 @@
 class Card {
-  constructor(data, templateSelector, handleCardClick) {
+  constructor(data, templateSelector, handleCardClick, handleCardRemove, canRemove) {
     this._templateSelector = templateSelector;
+    this._id = data._id;
     this._image = data.link;
     this._title = data.name;
     this._likes = data.likes;
     this._handleCardClick = handleCardClick;
+    this._handleCardRemove = handleCardRemove;
+    this._canRemove = canRemove;
   }
 
   _getTemplate() {
@@ -14,12 +17,16 @@ class Card {
       .querySelector('.element')
       .cloneNode(true);
 
+    if (!this._canRemove) {
+      cardElement.querySelector('.element__remove-button').remove();
+    }
+
     return cardElement;
   }
 
   _removeCard(event) {
     event.stopPropagation();
-    this._element.remove();
+    this._handleCardRemove(this._id, this._element);
   }
 
   _toggleLike(event) {
@@ -28,21 +35,16 @@ class Card {
     event.target.classList.toggle('element__footer-button_active');
   }
 
-  _popupRemoveCard() {
-    const popupRemove = document.querySelector('#popupRemove');
-
-    popupRemove.classList.add('popup_opened');
-  }
-
   _setEventListeners() {
-    const buttonRemove = this._element.querySelector('.element__remove-button');
-    const buttonRemoved = this._element.querySelector('.element__remove-button');
-    const buttonLike = this._element.querySelector('.element__footer-button');
-
     this._element.addEventListener('click', () => this._handleCardClick(this._image, this._title));
+
+    const buttonLike = this._element.querySelector('.element__footer-button');
     buttonLike.addEventListener('click', (event) => this._toggleLike(event));
-    buttonRemove.addEventListener('click', (event) => this._removeCard(event));
-    buttonRemoved.addEventListener('click', (event) => this._popupRemoveCard(event));
+
+    if (this._canRemove) {
+      const buttonRemove = this._element.querySelector('.element__remove-button');
+      buttonRemove.addEventListener('click', (event) => this._removeCard(event));
+    }
   };
 
   generateCard() {

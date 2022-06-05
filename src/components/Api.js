@@ -51,10 +51,14 @@ export default class Api {
   };
 
   editUserInfo = (body) => {
-    return this._patch('/users/me', body)
+    return this._patch('/users/me', body);
   };
 
   addNewCard = (body) => {
-    return this._post('/cards', body)
+    return this._post('/cards', body);
+  };
+
+  deleteCard = (cardId) => {
+    return this._delete('/cards/' + cardId);
   };
 }

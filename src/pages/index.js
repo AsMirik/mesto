@@ -2,6 +2,7 @@ import Api from '../components/Api.js';
 import { Card } from '../components/Card.js';
 import { FormValidator } from '../components/FormValidator.js';
 import Section from '../components/Section.js';
+import PopupCardRemove from '../components/PopupCardRemove.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import PopupWithForm from '../components/PopupWithForm.js';
 import UserInfo from '../components/UserInfo.js';
@@ -38,6 +39,9 @@ popupProfile.setEventListeners();
 const popupPreview = new PopupWithImage('#popupPreview');
 popupPreview.setEventListeners();
 
+const popupRemoveCard = new PopupCardRemove('#popupRemoveCard', handleCardRemove);
+popupRemoveCard.setEventListeners();
+
 const cardsSection = new Section('.elements');
 
 const user = new UserInfo({nameSelector: '.profile__name-text', infoSelector: '.profile__activity'});
@@ -58,29 +62,40 @@ function startPage() {
   popupPlaceAddFormValidator.enableValidation();
   profilePopupFormValidator.enableValidation();
 
-  // Получаем карточки
-  api.getInitialCards().then((result) => {
-    cardsSection.clear();
-
-    result.forEach((item) => {
-      const card = generateCard(item);
-      cardsSection.addItem(card);
-    });
-  });
-
   // Получаем информацию о пользователе
   api.getUserInfo().then((result) => {
-    user.setUserInfo(result.name, result.about);
+    user.setUserInfo(result.name, result.about, result._id);
+
+    // Получаем карточки
+    api.getInitialCards().then((result) => {
+      const userData = user.getUserInfo();
+      cardsSection.clear();
+
+      result.forEach((item) => {
+        const canRemove = userData.id === item.owner._id;
+        const card = generateCard(item, canRemove);
+        cardsSection.addItem(card);
+      });
+    });
   });
-
-
 }
 
-function generateCard(data) {
-  const card = new Card(data, '#newPost', handleCardClick);
+function generateCard(data, canRemove) {
+  const card = new Card(data, '#newPost', handleCardClick, confirmCardRemoving, canRemove);
   const cardElement = card.generateCard();
 
   return cardElement;
+}
+
+function confirmCardRemoving(cardId, cardElement) {
+  popupRemoveCard.open(cardId, cardElement);
+}
+
+function handleCardRemove(cardId, cardElement) {
+  api.deleteCard(cardId).then(() => {
+    cardElement.remove();
+    popupRemoveCard.close();
+  });
 }
 
 function openPopupPlaceAdd() {
@@ -92,7 +107,7 @@ function openPopupPlaceAdd() {
 
 function submitPopupPlaceAdd(formData) {
   api.addNewCard(formData).then((result) => {
-    cardsSection.addItem(generateCard(result));
+    cardsSection.addItem(generateCard(result, true));
 
     popupAddPlace.close();
   })
