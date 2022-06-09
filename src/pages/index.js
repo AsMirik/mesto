@@ -43,15 +43,11 @@ popupProfile.setEventListeners();
 const popupPreview = new PopupWithImage('#popupPreview');
 popupPreview.setEventListeners();
 
-const popupRemoveCard = new PopupCardRemove('#popupRemoveCard', handleCardRemove);
+const popupRemoveCard = new PopupCardRemove('#popupRemoveCard', submitCardRemove);
 popupRemoveCard.setEventListeners();
 
 const popupChangeAvatar = new PopupWithForm('#popupEditAvatar', submitPopupAvatar);
 popupChangeAvatar.setEventListeners();
-
-function openPopupAvatar() {
-  popupChangeAvatar.open();
-}
 
 const cardsSection = new Section('.elements');
 
@@ -69,10 +65,6 @@ const api = new Api({
   }
 });
 
-function handleCardClick(imageSrc, titleText) {
-  popupPreview.open(imageSrc, titleText);
-}
-
 function startPage() {
   popupPlaceAddFormValidator.enableValidation();
   profilePopupFormValidator.enableValidation();
@@ -87,24 +79,54 @@ function startPage() {
       const userData = user.getUserInfo();
       cardsSection.clear();
 
-      result.forEach((item) => {
-        const canRemove = userData.id === item.owner._id;
-        const card = generateCard(item, canRemove);
+      result.forEach((cardData) => {
+        const canRemove = userData.id === cardData.owner._id;
+
+        const isLiked = cardData.likes.some((like) => {
+          return userData.id === like._id;
+        });
+
+        const card = createCard(cardData, canRemove, isLiked);
         cardsSection.addItem(card);
       });
     });
   });
 }
 
-function generateCard(data, canRemove) {
-  const card = new Card(data, '#newPost', handleCardClick, confirmCardRemoving, canRemove);
+function createCard(data, canRemove, isLiked) {
+  const card = new Card({
+    data,
+    templateSelector: '#newPost',
+    handleCardClick,
+    handleCardRemove: confirmCardRemove,
+    canRemove,
+    isLiked,
+    toggleCardLike
+  });
+
   const cardElement = card.generateCard();
 
   return cardElement;
 }
 
-function confirmCardRemoving(cardId, cardElement) {
+function handleCardClick(imageSrc, titleText) {
+  popupPreview.open(imageSrc, titleText);
+}
+
+function toggleCardLike(cardId, isLiked) {
+  if (isLiked) {
+    return api.deleteLike(cardId);
+  } else {
+    return api.addLike(cardId);
+  }
+}
+
+function confirmCardRemove(cardId, cardElement) {
   popupRemoveCard.open(cardId, cardElement);
+}
+
+function openPopupAvatar() {
+  popupChangeAvatar.open();
 }
 
 function submitPopupAvatar(formData) {
@@ -114,7 +136,7 @@ function submitPopupAvatar(formData) {
   })
 }
 
-function handleCardRemove(cardId, cardElement) {
+function submitCardRemove(cardId, cardElement) {
   api.deleteCard(cardId).then(() => {
     cardElement.remove();
     popupRemoveCard.close();
@@ -130,7 +152,7 @@ function openPopupPlaceAdd() {
 
 function submitPopupPlaceAdd(formData) {
   api.addNewCard(formData).then((result) => {
-    cardsSection.addItem(generateCard(result, true));
+    cardsSection.addItem(createCard(result, true));
 
     popupAddPlace.close();
   })

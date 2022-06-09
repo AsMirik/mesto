@@ -64,5 +64,13 @@ export default class Api {
 
   changeAvatar = (body) => {
     return this._patch('/users/me/avatar', body);
-  }
+  };
+
+  addLike = (cardId) => {
+    return this._put('/cards/' + cardId + '/likes');
+  };
+
+  deleteLike = (cardId) => {
+    return this._delete('/cards/' + cardId + '/likes');
+  };
 }

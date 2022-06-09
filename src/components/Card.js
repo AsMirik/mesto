@@ -1,5 +1,5 @@
 class Card {
-  constructor(data, templateSelector, handleCardClick, handleCardRemove, canRemove) {
+  constructor({data, templateSelector, handleCardClick, handleCardRemove, canRemove, isLiked, toggleCardLike}) {
     this._templateSelector = templateSelector;
     this._id = data._id;
     this._image = data.link;
@@ -8,7 +8,22 @@ class Card {
     this._handleCardClick = handleCardClick;
     this._handleCardRemove = handleCardRemove;
     this._canRemove = canRemove;
+    this._isLiked = isLiked;
+    this._toggleCardLike = toggleCardLike;
+
+    this._buttonRemove = null;
+    this._buttonLike = null;
+    this._likesCounter = null;
   }
+
+  _settings = {
+    imageSelector: '.element__image',
+    nameSelector: '.element__footer-text',
+    buttonRemoveSelector: '.element__remove-button',
+    buttonLikeSelector: '.element__footer-button',
+    buttonLikeActiveClass: 'element__footer-button_active',
+    likeCounterSelector: '.element__footer-counter',
+  };
 
   _getTemplate() {
     const cardElement = document
@@ -18,7 +33,11 @@ class Card {
       .cloneNode(true);
 
     if (!this._canRemove) {
-      cardElement.querySelector('.element__remove-button').remove();
+      cardElement.querySelector(this._settings.buttonRemoveSelector).remove();
+    }
+
+    if (this._isLiked) {
+      cardElement.querySelector(this._settings.buttonLikeSelector).classList.add(this._settings.buttonLikeActiveClass);
     }
 
     return cardElement;
@@ -32,36 +51,55 @@ class Card {
   _toggleLike(event) {
     event.stopPropagation();
 
-    event.target.classList.toggle('element__footer-button_active');
+    this._toggleCardLike(this._id, this._isLiked).then((result) => {
+      if (this._isLiked) {
+        this._buttonLike.classList.remove(this._settings.buttonLikeActiveClass);
+      } else {
+        this._buttonLike.classList.add(this._settings.buttonLikeActiveClass);
+      }
+
+      this._isLiked = !this._isLiked;
+      this._likes = result.likes;
+
+      this.renderLikesCounter();
+    });
   }
 
   _setEventListeners() {
     this._element.addEventListener('click', () => this._handleCardClick(this._image, this._title));
 
-    const buttonLike = this._element.querySelector('.element__footer-button');
-    buttonLike.addEventListener('click', (event) => this._toggleLike(event));
+    this._buttonLike.addEventListener('click', (event) => this._toggleLike(event));
 
     if (this._canRemove) {
-      const buttonRemove = this._element.querySelector('.element__remove-button');
-      buttonRemove.addEventListener('click', (event) => this._removeCard(event));
+      this._buttonRemove.addEventListener('click', (event) => this._removeCard(event));
     }
   };
 
   generateCard() {
     this._element = this._getTemplate();
 
-    const elementImage = this._element.querySelector('.element__image');
-    const elementName = this._element.querySelector('.element__footer-text');
-    const elementLike = this._element.querySelector('.element__footer-counter');
+    const elementImage = this._element.querySelector(this._settings.imageSelector);
+    const elementName = this._element.querySelector(this._settings.nameSelector);
 
     elementImage.src = this._image;
     elementImage.alt = this._title;
     elementName.textContent = this._title;
-    elementLike.textContent = this._likes.length;
+
+    // Сохраняем изменяемые элементы в this
+    this._buttonRemove = this._element.querySelector(this._settings.buttonRemoveSelector);
+    this._buttonLike = this._element.querySelector(this._settings.buttonLikeSelector);
+    this._likesCounter = this._element.querySelector(this._settings.likeCounterSelector);
+
+    // Для обновления изменяемых элементов используем отдельные методы
+    this.renderLikesCounter();
 
     this._setEventListeners();
 
     return this._element;
+  }
+
+  renderLikesCounter() {
+    this._likesCounter.textContent = this._likes.length;
   }
 }
 
