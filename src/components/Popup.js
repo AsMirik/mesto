@@ -3,6 +3,7 @@ export default class Popup {
     this._popup = document.querySelector(popupSelector);
     this._popupCloseButton = this._popup.querySelector('.popup__close-button');
     this._popupOverlay = this._popup.querySelector('.popup__overlay');
+    this._submitButton = this._popup.querySelector('.popup__button');
   }
 
   _handleEscClose = (event) => {
@@ -10,6 +11,14 @@ export default class Popup {
       this.close();
     }
   };
+
+  submitButton(isLoading) {
+    if (isLoading) {
+      this._submitButton.textContent = 'Сохранить';
+    } else {
+      this._submitButton.textContent = 'Сохранение...';
+    }
+  }
 
   setEventListeners() {
     this._popupCloseButton.addEventListener('click', this.close);
