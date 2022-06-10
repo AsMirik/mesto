@@ -130,7 +130,7 @@ function openPopupAvatar() {
 }
 
 function submitPopupAvatar(formData) {
-  this.submitButton();
+  this.toggleLoading();
   api.changeAvatar(formData).then(() => {
     user.setAvatar(formData.avatar);
     popupChangeAvatar.close();
@@ -152,7 +152,7 @@ function openPopupPlaceAdd() {
 }
 
 function submitPopupPlaceAdd(formData) {
-  this.submitButton();
+  this.toggleLoading();
   api.addNewCard(formData).then((result) => {
     cardsSection.addItem(createCard(result, true));
 
@@ -172,7 +172,7 @@ function openProfilePopup() {
 }
 
 function submitProfilePopup(formData) {
-  this.submitButton();
+  this.toggleLoading();
   // Редактирование профиля
   api.editUserInfo({name: formData.name, about: formData.work})
     .then((result) => {

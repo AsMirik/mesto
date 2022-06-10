@@ -12,7 +12,7 @@ export default class Popup {
     }
   };
 
-  submitButton(isLoading) {
+  toggleLoading(isLoading) {
     if (isLoading) {
       this._submitButton.textContent = 'Сохранить';
     } else {
