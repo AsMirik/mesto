@@ -45,7 +45,11 @@ class Card {
 
   _removeCard(event) {
     event.stopPropagation();
-    this._handleCardRemove(this._id, this._element);
+    this._handleCardRemove(this._id, this._removeCardElement);
+  }
+
+  _removeCardElement = () => {
+    this._element.remove();
   }
 
   _toggleLike(event) {
