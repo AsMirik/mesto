@@ -14,15 +14,15 @@ export default class Popup {
 
   toggleLoading(isLoading) {
     if (isLoading) {
-      this._submitButton.textContent = 'Сохранить';
-    } else {
       this._submitButton.textContent = 'Сохранение...';
+    } else {
+      this._submitButton.textContent = 'Сохранить';
     }
   }
 
   setEventListeners() {
-    this._popupCloseButton.addEventListener('click', this.close);
-    this._popupOverlay.addEventListener('click', this.close);
+    this._popupCloseButton.addEventListener('click', () => this.close());
+    this._popupOverlay.addEventListener('click', () => this.close());
   }
 
   open() {
@@ -30,7 +30,7 @@ export default class Popup {
     this._popup.classList.add('popup_opened');
   }
 
-  close = () => {
+  close() {
     document.removeEventListener('keydown', this._handleEscClose);
     this._popup.classList.remove('popup_opened');
   }
