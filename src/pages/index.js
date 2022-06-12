@@ -113,11 +113,15 @@ function handleCardClick(imageSrc, titleText) {
   popupPreview.open(imageSrc, titleText);
 }
 
-function toggleCardLike(cardId, isLiked) {
+function toggleCardLike(cardId, isLiked, toggleLike) {
   if (isLiked) {
-    return api.deleteLike(cardId);
+    api.deleteLike(cardId).then((result) => {
+      toggleLike(result);
+    })
   } else {
-    return api.addLike(cardId);
+    api.addLike(cardId).then((result) => {
+      toggleLike(result);
+    })
   }
 }
 

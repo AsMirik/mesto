@@ -55,18 +55,20 @@ class Card {
   _toggleLike(event) {
     event.stopPropagation();
 
-    this._toggleCardLike(this._id, this._isLiked).then((result) => {
-      if (this._isLiked) {
-        this._buttonLike.classList.remove(this._settings.buttonLikeActiveClass);
-      } else {
-        this._buttonLike.classList.add(this._settings.buttonLikeActiveClass);
-      }
+    this._toggleCardLike(this._id, this._isLiked, this._toggleLikeCard);
+  }
 
-      this._isLiked = !this._isLiked;
-      this._likes = result.likes;
+  _toggleLikeCard = (result) => {
+    if (this._isLiked) {
+      this._buttonLike.classList.remove(this._settings.buttonLikeActiveClass);
+    } else {
+      this._buttonLike.classList.add(this._settings.buttonLikeActiveClass);
+    }
 
-      this.renderLikesCounter();
-    });
+    this._isLiked = !this._isLiked;
+    this._likes = result.likes;
+
+    this.renderLikesCounter();
   }
 
   _setEventListeners() {
