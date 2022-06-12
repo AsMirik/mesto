@@ -118,10 +118,16 @@ function toggleCardLike(cardId, isLiked, toggleLike) {
     api.deleteLike(cardId).then((result) => {
       toggleLike(result);
     })
+      .catch((err) => {
+        console.log(err);
+      });
   } else {
     api.addLike(cardId).then((result) => {
       toggleLike(result);
     })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 }
 
@@ -156,6 +162,9 @@ function submitCardRemove(cardId, removeCardElement) {
   })
     .catch((err) => {
       console.log(err);
+    })
+    .finally(() => {
+      popupRemoveCard.toggleLoading(false);
     });
 }
 
@@ -206,7 +215,7 @@ function submitProfilePopup(formData) {
       console.log(err);
     })
     .finally(() => {
-      popupAddPlace.toggleLoading(false);
+      popupProfile.toggleLoading(false);
     });
 }
 
