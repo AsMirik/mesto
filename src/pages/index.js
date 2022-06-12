@@ -206,7 +206,7 @@ function submitProfilePopup(formData) {
       console.log(err);
     })
     .finally(() => {
-      popupAddPlace.toggleLoading(false);
+      popupProfile.toggleLoading(false);
     });
 }
 
